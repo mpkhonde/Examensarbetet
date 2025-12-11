@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    // OBS: Det finns (än så länge) ingen 4.0.0 av Spring Boot.
+    // Använd t.ex. 3.3.4 (eller en annan 3.x-version du vill).
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'se.projektarbete'
+version = '0.0.1-SNAPSHOT'
+description = 'Examearbete'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // --- Huvudfunktionalitet ---
+    implementation 'org.springframework.boot:spring-boot-starter-web'       // webmvc -> web
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // --- Databas (PostgreSQL) ---
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // --- Utvecklingshjälp ---
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // --- Tester ---
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
